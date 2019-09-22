@@ -152,7 +152,8 @@ const InputContainer = styled.form({
 
 export const Text = styled.p(
   {
-    fontSize: 13
+    fontSize: 13,
+    marginLeft: "25px"
   },
   props => ({
     color: props.color

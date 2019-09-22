@@ -1,6 +1,7 @@
 import React from "react";
 import JobCoinLogo from "../../assets/job_coin_logo";
 import ClaimModal from './claim_modal'
+import { navigate } from "hookrouter"
 import {
   Container,
   Divider,
@@ -11,7 +12,6 @@ import {
   Label,
   Segment
 } from "semantic-ui-react";
-
 
 const FixedMenuLayout = () => (
   <div>
@@ -28,7 +28,7 @@ const FixedMenuLayout = () => (
         <Menu.Item as="a" color="red">
           <ClaimModal />
         </Menu.Item>
-        <Menu.Item as="a" color="red" position="right">
+        <Menu.Item as="a" href="/" color="red" position="right">
           log out
         </Menu.Item>
       </Container>
