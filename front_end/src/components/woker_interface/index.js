@@ -1,6 +1,7 @@
 import React from "react";
 import JobCoinLogo from "../../assets/job_coin_logo";
 import ClaimModal from "./claim_modal";
+import reciepts from "../../Api";
 import { navigate } from "hookrouter";
 import {
   Container,
@@ -17,15 +18,28 @@ class FixedMenuLayout extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      date: "",
-      weight: "",
-      credit: ""
+      reciepts: reciepts,
+      object: {
+        date: "",
+        weight: "",
+        credit: ""
+      }
     };
   }
 
-  // handleClick = () => {
-  //   this.setState({ weight, credit, date: Date.now() });
-  // };
+  handleClick = object => {
+    console.log(object);
+    this.setState({
+      object,
+      reciepts: [...this.state.reciepts, object]
+    });
+  };
+
+  handleBalance = () => {
+    let balance;
+    this.state.reciepts.map(amount => (balance += amount.credit));
+    return balance;
+  };
   render() {
     return (
       <div>
@@ -66,16 +80,15 @@ class FixedMenuLayout extends React.Component {
             </Table.Header>
 
             <Table.Body>
-              <Table.Row>
-                <Table.Cell>4.14.19</Table.Cell>
-                <Table.Cell>22.30L</Table.Cell>
-                <Table.Cell>$4.50</Table.Cell>
-              </Table.Row>
-              <Table.Row>
-                <Table.Cell>4.15.19</Table.Cell>
-                <Table.Cell>30.30L</Table.Cell>
-                <Table.Cell>$5.50</Table.Cell>
-              </Table.Row>
+              {this.state.reciepts.map((record, idx) => {
+                return (
+                  <Table.Row key={idx}>
+                    <Table.Cell>{record.date}</Table.Cell>
+                    <Table.Cell>{record.weight}.00L</Table.Cell>
+                    <Table.Cell>${record.credit}.00</Table.Cell>
+                  </Table.Row>
+                );
+              })}
             </Table.Body>
           </Table>
         </Container>

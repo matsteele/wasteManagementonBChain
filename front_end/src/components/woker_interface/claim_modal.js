@@ -38,6 +38,25 @@ class ModalBasicExample extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.setState({
+      weight: this.getWeight(),
+      amountPaid: this.sumTrash(),
+      date: Date.now()
+    });
+  }
+
+  handleObject = () => {
+    let i = Math.floor(Math.random() * 31);
+
+    const object = {
+      date: "9/" + i + "/19",
+      weight: this.getWeight(),
+      credit: this.sumTrash()
+    };
+    this.props.handleClick(object);
+  };
+
   getWeight = () => {
     return Math.floor(Math.random() * 10);
   };
@@ -91,7 +110,7 @@ class ModalBasicExample extends React.Component {
           <br />
         </Modal.Content>
         <Modal.Actions>
-          <Button color="green" inverted>
+          <Button color="green" inverted onClick={() => this.handleObject()}>
             <Icon name="checkmark" /> submit
           </Button>
         </Modal.Actions>
