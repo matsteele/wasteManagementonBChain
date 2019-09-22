@@ -24,7 +24,7 @@ export const StyledInputComp = props => (
 const StyledInput = styled(Input)`
   & > input {
     height: 20px;
-    width: 80px;
+    width: 100px;
     padding: 0;
     &:focus {
       border: 1px solid red !important;
