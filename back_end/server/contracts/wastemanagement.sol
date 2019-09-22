@@ -1,25 +1,31 @@
 pragma solidity ^0.5.0;
+import "./oracle.sol";
 
 
-contract WasteManagement{
+contract WasteManagement is Oracle {
 
   string public location;
   uint totalSpent;
   uint256 cash;
 
-   struct Trash{
+  struct Trash{
      uint trash_weight;
      bytes32 trash_type;
      address sanitation_worker;
     }
 
+  
   mapping(address => Trash) public trashCount;
+
+  event calculate(bytes32 trash_type);
+  event payout(uint trash_weight, bytes32 trash_type);
 
   constructor(string memory _location)public{
     location = _location;
     cash = 1000000 ether;
    }
 
+  Oracle oracle = new Oracle();
 
   function createTrash(uint trash_weight, bytes32 trash_type, address sanitation_worker)public{
     trashCount[sanitation_worker] = Trash(trash_weight, trash_type, sanitation_worker);
@@ -40,12 +46,15 @@ contract WasteManagement{
     }
   }
 
+
   function payOutTrash(uint trash_weight, bytes32 trash_type)public payable returns(uint){
-      uint256 payout = calculateType(trash_type) * trash_weight;
-      cash -= payout;
-      require (cash >= payout, 'Contract does not have enough funds');
-      return payout;
+      uint256 sum = calculateType(trash_type) * trash_weight;
+      cash -= sum;
+      require (cash >= sum, 'Contract does not have enough funds');
+    emit payout(trash_weight, trash_type);
   }
+
+
 }
 
 
